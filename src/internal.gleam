@@ -2,45 +2,89 @@ import gleam/io
 import gleam/string
 import gleam/list
 
+fn is_positive_char_group(character: String, input: String) -> Bool {
+  let valid_chars =
+    string.slice(
+      from: character,
+      at_index: 1,
+      length: string.length(character) - 2,
+    )
+    |> string.split("")
+    |> list.filter(fn(c) { string.contains(does: input, contain: c) })
+
+  case list.length(valid_chars) > 0 {
+    True -> {
+      io.println(
+        "\u{1F600}"
+        <> input
+        <> " is included in "
+        <> character
+        <> " character group",
+      )
+    }
+    False -> {
+      io.println(
+        "\u{1F600}"
+        <> input
+        <> " is not included in "
+        <> character
+        <> " character group",
+      )
+    }
+  }
+  list.length(valid_chars) > 0
+}
+
+pub fn is_negative_char_group(character: String, input: String) -> Bool {
+  let valid_chars =
+    string.slice(
+      from: character,
+      at_index: 2,
+      length: string.length(character) - 2,
+    )
+    |> string.split("")
+    |> list.filter(fn(c) { string.contains(does: input, contain: c) })
+
+  case list.is_empty(valid_chars) {
+    True -> {
+      io.println(
+        "\u{1F600}"
+        <> input
+        <> " is not included in "
+        <> character
+        <> " negative character group",
+      )
+    }
+    False -> {
+      io.println(
+        "\u{1F600}"
+        <> input
+        <> " is included in "
+        <> character
+        <> " negative character group",
+      )
+    }
+  }
+  list.is_empty(valid_chars)
+}
+
 pub fn is_contain(character: String, input: String) -> Bool {
   let is_char_group =
     character
     |> string.starts_with("[")
     && string.ends_with(character, "]")
 
-  case is_char_group {
-    True -> {
-      let valid_chars =
-        string.slice(
-          from: character,
-          at_index: 1,
-          length: string.length(character) - 2,
-        )
-        |> string.split("")
-        |> list.filter(fn(c) { string.contains(does: input, contain: c) })
+  let is_negative_char =
+    character
+    |> string.starts_with("[^")
+    && string.ends_with(character, "]")
 
-      case list.length(valid_chars) > 0 {
-        True -> {
-          io.println(
-            "\u{1F600}"
-            <> input
-            <> " is included in "
-            <> character
-            <> " character group",
-          )
-        }
-        False -> {
-          io.println(
-            "\u{1F600}"
-            <> input
-            <> " is not included in "
-            <> character
-            <> " character group",
-          )
-        }
+  case is_char_group {
+    True ->
+      case is_negative_char {
+        True -> is_negative_char_group(character, input)
+        False -> is_positive_char_group(character, input)
       }
-      list.length(valid_chars) > 0
-    }
     False -> {
       case string.contains(does: input, contain: character) {
         True -> {

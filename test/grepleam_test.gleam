@@ -15,6 +15,10 @@ pub fn is_contain_test() {
   |> should.equal(True)
   internal.is_contain("[abcd]", "zoo")
   |> should.equal(False)
+  internal.is_contain("[^bop]", "paper")
+  |> should.equal(False)
+  internal.is_contain("[^namo]", "feet")
+  |> should.equal(True)
 }
 
 pub fn is_digit_present_test() {

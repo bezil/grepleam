@@ -1,7 +1,5 @@
 # grepleam
-
-[![Package Version](https://img.shields.io/hexpm/v/grepleam)](https://hex.pm/packages/grepleam)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/grepleam/)
+Basic Grep for gleam
 
 ```sh
 gleam add grepleam
@@ -23,6 +21,9 @@ gleam run is_alphanumeric '??' #😀 No Alphanumeric Characters Found ??
 
 # Positive Character Groups
 gleam run [aeiou] 'gleam' #😀gleam is included in [aeiou] character group
+
+# Negative Character Groups
+gleam run [^anb] 'best' #😀best is included in [^anb] negative character group
 ```
 
 # Make the escript executable
